@@ -1,0 +1,8 @@
+<div (mouseenter) = "highlight()" (mouseleave) = "unhighlght()">
+  <div *ngIf="over">
+    <app-highlighted-block [char]="space.character()"></app-highlighted-block>
+  </div>
+  <div *ngIf="!over">
+    <app-standard-block [char]="space.character()"></app-standard-block>
+  </div>
+</div>

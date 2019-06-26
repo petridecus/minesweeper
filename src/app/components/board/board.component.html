@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col-2">
+    <div class="row half-row"></div>
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col">
+        <h5 class="row my-cont">(
+          <div class="bad" *ngIf="!board.isGameOver() && board.minePortion() >= 8">
+            {{board.numMines()}}
+          </div>
+          <div class="crummy" *ngIf="!board.isGameOver() && board.minePortion() < 8 && board.minePortion() >= 5">
+            {{board.numMines()}}
+          </div>
+          <div class="okay" *ngIf="!board.isGameOver() && board.minePortion() < 5 && board.minePortion() >= 3">
+            {{board.numMines()}}
+          </div>
+          <div class="good" *ngIf="!board.isGameOver() && board.minePortion() < 3 && !board.isGameOver()">
+            {{board.numMines()}}
+          </div>
+          <div class="good" *ngIf="board.isGameOver() && board.victory()">
+            :)
+          </div>
+          <div class="bad" *ngIf="board.isGameOver() && !board.victory()">
+            :(
+          </div>
+        )</h5>
+      </div>
+    </div>
+    <div class="row half-row"></div>
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col-4 my-cont" id="flagbox" (click)="fboxtoggle()">
+        <div class="flagbox-selected" *ngIf="fbox">!</div>
+        <div class="flagbox-standard" *ngIf="!fbox">!</div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid my-cont col-8">
+    <br>
+    <div class="row">
+      <div class="col-8 title">
+        <h3>Minesweeper</h3>
+      </div>
+      <div class="col-4">
+        <div class="good mr-auto" *ngIf="board.isGameOver() && board.victory()">
+          <h5>You won!</h5>
+        </div>
+        <div class="bad mr-auto" *ngIf="board.isGameOver() && !board.victory()">
+          <h5>You lost!</h5>
+        </div>
+      </div>
+    </div>
+    <div class="row my-row">
+      <div *ngFor = "let row of board.board" class = "row my-row">
+        <div *ngFor = "let space of row" class="col my-col">
+          <div class="gamespace"
+                (click)="check(space.row, space.col)"
+                (contextmenu)="toggleFlag(space.row, space.col)"
+                (mouseenter)="highlight(space.row, space.col)"
+                (mouseleave)="unhighlight(space.row, space.col)">
+            <div class="standardblock"
+              *ngIf="!board.isGameOver() && !isHighlighted(space.row, space.col)">
+              {{space.character()}}
+            </div>
+            <div class="highlightedblock"
+              *ngIf="!board.isGameOver() && isHighlighted(space.row, space.col)">
+              {{space.character()}}
+            </div>
+            <div class="victoryblock"
+              *ngIf="board.victory()">
+              {{space.character()}}
+            </div>
+            <div class="lossblock"
+              *ngIf="board.isGameOver() && !board.victory()">
+              {{space.character()}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-2"></div>
+</div>
